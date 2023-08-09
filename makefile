@@ -1,19 +1,21 @@
-.PHONY:clean all
-CFLAGS=-Wall -std=c++11 -pthread -w
+# 指定编译器
+CC=g++
+#指定编译选项
+CFLAGS=-Wall -g -std=c++17
+Target=main
+Src:=$(wildcard ./*.cpp)
+Objs:=$(patsubst %.cpp,%.o, $(Src))
+#指定头文件位置
+INCLUDES = -I ./include
 
-BIN=bin
 
-SUBDIR=$(shell ls -d */)     
+$(Target):$(Objs)
+	echo $(Objs)
+	@mkdir -p output
+	$(CC) $(Objs) -o output/$(Target)
 
-ROOTSRC=$(wildcard *.cpp)
-ROOTOBJ=$(ROOTSRC:%.cpp=%.o)
+%.o:%.cpp
+	$(CC) $(INCLUDES) $(CFLAGS) -c $< -o $@
 
-SUBSRC=$(shell find $(SUBDIR) -name '*.cpp')
-SUBOBJ=$(SUBSRC:%.cpp=%.o)
-
-$(BIN):$(ROOTOBJ) $(SUBOBJ)
-	$(CXX) $(CFLAGS) -o $@ $^
-.cpp.o:
-	$(CXX) $(CFLAGS) -c $< -o $@
 clean:
-	rm -f *.o $(BIN) $(ROOTOBJ) $(SUBOBJ)
+	rm $(Objs)
