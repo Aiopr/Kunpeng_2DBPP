@@ -1,7 +1,7 @@
 # 指定编译器
 CC=g++
 #指定编译选项
-CFLAGS=-Wall -g -std=c++17
+CFLAGS=-Wall -g -std=c++17 -march=armv8.2-a
 Target=main
 Src:=$(wildcard ./*.cpp)
 Objs:=$(patsubst %.cpp,%.o, $(Src))
